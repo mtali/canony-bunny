@@ -13,7 +13,7 @@ public class WorldRenderer implements Disposable {
     public WorldRenderer(WorldController worldController){}
     private void init(){}
 
-    private void render(){}
+    public void render(){}
     public void resize(int width, int height){}
 
     @Override
