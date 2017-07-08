@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 
+@SuppressWarnings("WeakerAccess")
 public class WorldController extends InputAdapter {
     private static final String TAG = WorldController.class.getName();
     public Sprite[] testSprites;
