@@ -60,7 +60,7 @@ public class CameraHelper {
 
     public void setTarget(Sprite target) { this.target = target; }
     public Sprite getTarget() { return target; }
-    private boolean hasTarget() { return target != null; }
+    public boolean hasTarget() { return target != null; }
     public boolean hasTarget(Sprite sprite) {return  hasTarget() && this.target.equals(sprite); }
 
     public void applyTo (OrthographicCamera camera){
