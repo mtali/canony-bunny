@@ -1,12 +1,17 @@
 package com.colisa.canyonbunny;
 
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 
-public class WorldController {
+public class WorldController extends InputAdapter {
     private static final String TAG = WorldController.class.getName();
     public Sprite[] testSprites;
     private int selectedSprite;
@@ -16,6 +21,7 @@ public class WorldController {
     }
 
     private void init(){
+        Gdx.input.setInputProcessor(this);
         initTestObjects();
     }
 
@@ -66,7 +72,25 @@ public class WorldController {
     }
 
     public void update(float deltaTime){
+        handleDebugInput(deltaTime);
         updateTextObjects(deltaTime);
+    }
+
+    private void handleDebugInput(float deltaTime){
+        if (Gdx.app.getType() != Application.ApplicationType.Desktop) return;
+
+        // Selected Sprite Controls
+        float spriteMoveSpeed = 5 * deltaTime;
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) moveSelectedSprite(-spriteMoveSpeed, 0);
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) moveSelectedSprite(spriteMoveSpeed, 0);
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) moveSelectedSprite(0, spriteMoveSpeed);
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) moveSelectedSprite(0, -spriteMoveSpeed);
+
+
+    }
+
+    private void moveSelectedSprite(float x, float y){
+        testSprites[selectedSprite].translate(x, y);
     }
 
     private void updateTextObjects(float deltaTime){
@@ -79,4 +103,20 @@ public class WorldController {
         // Set rotation value to selected sprite
         testSprites[selectedSprite].setRotation(rotation);
     }
+
+
+    @Override
+    public boolean keyUp(int keycode) {
+
+        if (keycode == Input.Keys.R){
+            init();
+            Gdx.app.debug(TAG, "Game world resettled");
+        }else if (keycode == Input.Keys.SPACE){
+            selectedSprite = (selectedSprite + 1) % testSprites.length;
+            Gdx.app.debug(TAG, "Sprite #" + selectedSprite + " selected");
+        }
+        return false;
+    }
+
+
 }
