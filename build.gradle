@@ -91,7 +91,7 @@ project(":core") {
         def inputDir = "$rootDir/core/rawAssets/images"
         def outputDir = "$rootDir/android/assets/images"
         inputs.dir inputDir
-        output.dir outputDir
+        outputs.dir outputDir
         doLast {
             if (rebuildAtlas){
                 delete(outputDir)
