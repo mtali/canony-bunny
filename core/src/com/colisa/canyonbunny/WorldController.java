@@ -41,6 +41,8 @@ public class WorldController extends InputAdapter {
         // Create new texture from pixmap data
         Texture texture = new Texture(pixmap);
 
+        pixmap.dispose();
+
         // Create new sprites using just created texture
         for (int i = 0; i < testSprites.length; i++){
             Sprite spr = new Sprite(texture);
@@ -91,22 +93,24 @@ public class WorldController extends InputAdapter {
         if (Gdx.input.isKeyPressed(Input.Keys.W)) moveSelectedSprite(0, spriteMoveSpeed);
         if (Gdx.input.isKeyPressed(Input.Keys.S)) moveSelectedSprite(0, -spriteMoveSpeed);
 
-        // Camera Control (move)
-        float cameraMoveSpeed = 5 * deltaTime;
-        float cameraMoveSpeedAccelerationFactor = 5;
-        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
-            cameraMoveSpeed *= cameraMoveSpeedAccelerationFactor;
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) moveCamera(-cameraMoveSpeed, 0);
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) moveCamera(cameraMoveSpeed, 0);
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) moveCamera(0, cameraMoveSpeed);
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) moveCamera(0, -cameraMoveSpeed);
-        if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) cameraHelper.setPosition(0,0);
+        if (!cameraHelper.hasTarget()){
+            // Camera Control (move)
+            float cameraMoveSpeed = 5 * deltaTime;
+            float cameraMoveSpeedAccelerationFactor = 5;
+            if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
+                cameraMoveSpeed *= cameraMoveSpeedAccelerationFactor;
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) moveCamera(-cameraMoveSpeed, 0);
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) moveCamera(cameraMoveSpeed, 0);
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) moveCamera(0, cameraMoveSpeed);
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) moveCamera(0, -cameraMoveSpeed);
+            if (Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) cameraHelper.setPosition(0,0);
+        }
 
         // Camera Control (zoom)
         float cameraZoomSpeed = 1 * deltaTime;
         float cameraZoomSpeedAccelerationFactor = 5;
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
-            cameraMoveSpeed *= cameraZoomSpeedAccelerationFactor;
+            cameraZoomSpeed *= cameraZoomSpeedAccelerationFactor;
         if (Gdx.input.isKeyPressed(Input.Keys.COMMA)) cameraHelper.addZoom(cameraZoomSpeed);
         if (Gdx.input.isKeyPressed(Input.Keys.PERIOD)) cameraHelper.addZoom(-cameraZoomSpeed);
         if (Gdx.input.isKeyJustPressed(Input.Keys.SLASH)) cameraHelper.setZoom(1);

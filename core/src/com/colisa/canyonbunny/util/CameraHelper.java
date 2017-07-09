@@ -35,6 +35,7 @@ public class CameraHelper {
     }
 
     public void update(float deltaTime) {
+        // If camera doesn't have a target
         if (!hasTarget()) return;
         position.x = target.getX() + target.getOriginX();
         position.y = target.getY() + target.getOriginY();
