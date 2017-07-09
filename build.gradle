@@ -1,3 +1,6 @@
+import com.badlogic.gdx.tools.texturepacker.TexturePacker
+import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
+
 buildscript {
     repositories {
         mavenLocal()
@@ -8,6 +11,7 @@ buildscript {
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.badlogicgames.gdx:gdx-tools:1.9.6'
     }
 }
 
@@ -80,6 +84,28 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     }
+
+    task packTextures {
+        def rebuildAtlas = true
+        def drawDebugOutline = true
+        def inputDir = "$rootDir/core/rawAssets/images"
+        def outputDir = "$rootDir/android/assets/images"
+        inputs.dir inputDir
+        output.dir outputDir
+        doLast {
+            if (rebuildAtlas){
+                delete(outputDir)
+                def settings = new Settings()
+                settings.maxWidth = 1024
+                settings.maxHeight = 1024
+                settings.duplicatePadding = false
+                settings.debug = drawDebugOutline
+                TexturePacker.process(settings, inputDir, outputDir, "canyonbunny.pack")
+            }
+        }
+    }
+
+    project.tasks.compileJava.dependsOn packTextures
 }
 
 tasks.eclipse.doLast {
