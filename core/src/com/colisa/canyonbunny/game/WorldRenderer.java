@@ -1,4 +1,4 @@
-package com.colisa.canyonbunny;
+package com.colisa.canyonbunny.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;

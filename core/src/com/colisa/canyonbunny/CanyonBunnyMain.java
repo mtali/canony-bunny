@@ -4,12 +4,13 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.colisa.canyonbunny.game.WorldRenderer;
 
 public class CanyonBunnyMain extends ApplicationAdapter {
     private static final String TAG = CanyonBunnyMain.class.getName();
 
-    private WorldController worldController;
-    private WorldRenderer worldRenderer;
+    private com.colisa.canyonbunny.game.WorldController worldController;
+    private com.colisa.canyonbunny.game.WorldRenderer worldRenderer;
 
     // Handle game pause
     private boolean paused;
@@ -20,7 +21,7 @@ public class CanyonBunnyMain extends ApplicationAdapter {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
         // Initialize world controller and world renderer
-        worldController = new WorldController();
+        worldController = new com.colisa.canyonbunny.game.WorldController();
         worldRenderer = new WorldRenderer(worldController);
 
         // Game world is active to start
