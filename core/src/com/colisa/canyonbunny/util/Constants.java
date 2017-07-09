@@ -8,4 +8,18 @@ public class Constants {
 
     // Location of description file for texture atlas
     public static final String TEXTURE_ATLAS_OBJECTS = "images/canyonbunny.pack.atlas";
+
+    // Assets constants
+    public static final String BUNNY_HEAD = "bunny_head";
+    public static final String ROCK_EDGE = "rock_edge";
+    public static final String ROCK_MIDDLE = "rock_middle";
+    public static final String GOLD_COIN = "item_gold_coin";
+    public static final String FEATHER = "item_feather";
+
+    public static final String CLOUDS_1 = "cloud01";
+    public static final String CLOUDS_2 = "cloud02";
+    public static final String CLOUDS_3 = "cloud03";
+    public static final String MOUNTAIN_LEFT = "mountain_left";
+    public static final String MOUNTAIN_RIGHT = "mountain_right";
+    public static final String WATER_OVERLAY = "water_overlay";
 }

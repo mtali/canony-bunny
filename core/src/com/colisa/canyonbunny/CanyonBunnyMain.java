@@ -3,7 +3,9 @@ package com.colisa.canyonbunny;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.colisa.canyonbunny.game.Assets;
 import com.colisa.canyonbunny.game.WorldRenderer;
 
 public class CanyonBunnyMain extends ApplicationAdapter {
@@ -19,6 +21,9 @@ public class CanyonBunnyMain extends ApplicationAdapter {
     public void create() {
         // Set libgdx log level to debug
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
+        // Load assets
+        Assets.instance.init(new AssetManager());
 
         // Initialize world controller and world renderer
         worldController = new com.colisa.canyonbunny.game.WorldController();
@@ -63,6 +68,7 @@ public class CanyonBunnyMain extends ApplicationAdapter {
     @Override
     public void dispose() {
         worldRenderer.dispose();
+        Assets.instance.dispose();
     }
 }
 

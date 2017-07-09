@@ -6,18 +6,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.colisa.canyonbunny.util.CameraHelper;
 
 @SuppressWarnings("WeakerAccess")
 public class WorldController extends InputAdapter {
     private static final String TAG = WorldController.class.getName();
     public Sprite[] testSprites;
-    private int selectedSprite;
-
     public CameraHelper cameraHelper;
+    private int selectedSprite;
 
     public WorldController(){
         init();
@@ -33,19 +33,15 @@ public class WorldController extends InputAdapter {
         // Create new array of 5 sprites
         testSprites = new Sprite[5];
 
-        // Create empty POT-sized Pixmap with 8 bit RGBA pixel data
-        int width = 32;
-        int height = 32;
-        Pixmap pixmap = createProceduralPixmap(width, height);
+        // Create list of texture regions
+        Array<TextureRegion> regions = new Array<TextureRegion>();
+        regions.add(Assets.instance.bunnyAssets.head);
+        regions.add(Assets.instance.featherAssets.feather);
+        regions.add(Assets.instance.goldCoinAssets.goldCoin);
 
-        // Create new texture from pixmap data
-        Texture texture = new Texture(pixmap);
-
-        pixmap.dispose();
-
-        // Create new sprites using just created texture
+        // Create new sprites using random texture regions
         for (int i = 0; i < testSprites.length; i++){
-            Sprite spr = new Sprite(texture);
+            Sprite spr = new Sprite(regions.random());
             // Define sprite size to be 1m * 1m in game world
             spr.setSize(1,1);
             // Set origin to sprite's center
