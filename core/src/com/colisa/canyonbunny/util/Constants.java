@@ -22,4 +22,6 @@ public class Constants {
     public static final String MOUNTAIN_LEFT = "mountain_left";
     public static final String MOUNTAIN_RIGHT = "mountain_right";
     public static final String WATER_OVERLAY = "water_overlay";
+
+    public static final String LEVEL_1 = "levels/level-01.png";
 }
