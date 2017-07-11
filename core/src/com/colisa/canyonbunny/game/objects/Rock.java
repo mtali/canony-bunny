@@ -25,7 +25,7 @@ public class Rock extends AbstractGameObject {
         setLength(1);
     }
 
-    public void setLength(int length) {
+    private void setLength(int length) {
         this.length = length;
     }
 
@@ -94,7 +94,7 @@ public class Rock extends AbstractGameObject {
                 region.getTexture(),
                 position.x + relX,
                 position.y + relY,
-                relX + dimension.x/8,
+                relX + dimension.x / 8,
                 origin.y,
                 dimension.x / 4,
                 dimension.y,

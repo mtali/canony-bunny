@@ -2,9 +2,9 @@ package com.colisa.canyonbunny.util;
 
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.colisa.canyonbunny.game.objects.AbstractGameObject;
 
 
 /**
@@ -12,22 +12,19 @@ import com.badlogic.gdx.math.Vector2;
  * object at a time when set as a target by calling setTarget(), target can be set to null to make
  * the camera stop following at all . To find out the last set target call getTarget(), checking for
  * null by hasTarget().
- *
+ * <p>
  * The update() method should be called on every update cycle to let it update the camera position
  * whatever needed
- *
+ * <p>
  * The applyTo() should be called at the beginning of rendering of new frame
  */
 @SuppressWarnings("WeakerAccess")
 public class CameraHelper {
     private static final String TAG = CameraHelper.class.getName();
 
-    private final float MAX_ZOOM_IN = 0.25f;
-    private final float MAX_ZOOM_OUT = 10f;
-
     private Vector2 position;
     private float zoom;
-    private Sprite target;
+    private AbstractGameObject target;
 
     public CameraHelper() {
         position = new Vector2();
@@ -37,8 +34,8 @@ public class CameraHelper {
     public void update(float deltaTime) {
         // If camera doesn't have a target
         if (!hasTarget()) return;
-        position.x = target.getX() + target.getOriginX();
-        position.y = target.getY() + target.getOriginY();
+        position.x = target.position.x + target.origin.x;
+        position.y = target.position.y + target.origin.y;
     }
 
     public void setPosition(float x, float y) {
@@ -53,18 +50,31 @@ public class CameraHelper {
         setZoom(zoom + amount);
     }
 
-    public void setZoom(float zoom) {
-        this.zoom = MathUtils.clamp(zoom, MAX_ZOOM_IN, MAX_ZOOM_OUT);
+    public float getZoom() {
+        return zoom;
     }
 
-    public float getZoom() {return zoom; }
+    public void setZoom(float zoom) {
+        this.zoom = MathUtils.clamp(zoom, Constants.MAX_ZOOM_IN, Constants.MAX_ZOOM_OUT);
+    }
 
-    public void setTarget(Sprite target) { this.target = target; }
-    public Sprite getTarget() { return target; }
-    public boolean hasTarget() { return target != null; }
-    public boolean hasTarget(Sprite sprite) {return  hasTarget() && this.target.equals(sprite); }
+    public AbstractGameObject getTarget() {
+        return target;
+    }
 
-    public void applyTo (OrthographicCamera camera){
+    public void setTarget(AbstractGameObject target) {
+        this.target = target;
+    }
+
+    public boolean hasTarget() {
+        return target != null;
+    }
+
+    public boolean hasTarget(AbstractGameObject target) {
+        return hasTarget() && this.target.equals(target);
+    }
+
+    public void applyTo(OrthographicCamera camera) {
         camera.position.x = position.x;
         camera.position.y = position.y;
         camera.zoom = zoom;

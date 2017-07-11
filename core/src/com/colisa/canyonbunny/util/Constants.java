@@ -24,4 +24,13 @@ public class Constants {
     public static final String WATER_OVERLAY = "water_overlay";
 
     public static final String LEVEL_1 = "levels/level-01.png";
+
+    public static final float VIEWPORT_GUI_WIDTH = 800.0f;
+    public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
+
+    public static final int LIVES_START = 3;
+
+    // Camera constants
+    static final float MAX_ZOOM_IN = 0.25f;
+    static final float MAX_ZOOM_OUT = 10f;
 }

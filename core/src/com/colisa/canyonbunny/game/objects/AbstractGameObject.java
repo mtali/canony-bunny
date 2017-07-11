@@ -4,6 +4,7 @@ package com.colisa.canyonbunny.game.objects;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+@SuppressWarnings("WeakerAccess")
 public abstract class AbstractGameObject {
     public Vector2 position;
     public Vector2 dimension;
