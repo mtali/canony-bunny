@@ -33,4 +33,7 @@ public class Constants {
     // Camera constants
     static final float MAX_ZOOM_IN = 0.25f;
     static final float MAX_ZOOM_OUT = 10f;
+
+    // Fonts
+    public static final String FONTS = "images/arial-15.fnt";
 }

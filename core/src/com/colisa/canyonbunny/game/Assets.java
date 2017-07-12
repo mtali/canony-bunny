@@ -6,6 +6,8 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Disposable;
@@ -22,6 +24,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public AssetGoldCoin goldCoinAssets;
     public AssetFeather featherAssets;
     public AssetLevelDecoration levelDecorationAssets;
+    public AssetFonts assetFonts;
     private AssetManager assetManager;
 
     // singleton prevent instantiation from other classes
@@ -48,6 +51,7 @@ public class Assets implements Disposable, AssetErrorListener {
         }
 
         // Creating game resource objects
+        assetFonts = new AssetFonts();
         bunnyAssets = new AssetBunny(atlas);
         rockAssets = new AssetRock(atlas);
         goldCoinAssets = new AssetGoldCoin(atlas);
@@ -116,6 +120,33 @@ public class Assets implements Disposable, AssetErrorListener {
             mountainLeft = atlas.findRegion(Constants.MOUNTAIN_LEFT);
             mountainRight = atlas.findRegion(Constants.MOUNTAIN_RIGHT);
             waterOverlay = atlas.findRegion(Constants.WATER_OVERLAY);
+        }
+    }
+
+    public class AssetFonts{
+        public final BitmapFont defaultSmall;
+        public final BitmapFont defaultNormal;
+        public final BitmapFont defaultBig;
+
+        public AssetFonts(){
+            defaultSmall = new BitmapFont(Gdx.files.internal(Constants.FONTS), true);
+            defaultNormal = new BitmapFont(Gdx.files.internal(Constants.FONTS), true);
+            defaultBig = new BitmapFont(Gdx.files.internal(Constants.FONTS), true);
+
+            setScaleAndFilter(defaultSmall, 0.75f, TextureFilter.Linear);
+            setScaleAndFilter(defaultNormal, 1.0f, TextureFilter.Linear);
+            setScaleAndFilter(defaultBig, 2.0f, TextureFilter.Linear);
+        }
+
+        private void setScaleAndFilter(BitmapFont font, float scaleXY, Texture.TextureFilter filter){
+            font.getData().setScale(scaleXY);
+            font.getRegion().getTexture().setFilter(filter, filter);
+        }
+
+        protected void dispose(){
+            defaultSmall.dispose();
+            defaultNormal.dispose();
+            defaultBig.dispose();
         }
     }
 }
