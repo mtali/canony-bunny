@@ -68,6 +68,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
     @Override
     public void dispose() {
+        assetFonts.dispose();
         assetManager.dispose();
     }
 
