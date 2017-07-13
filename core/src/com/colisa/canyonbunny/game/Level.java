@@ -26,6 +26,7 @@ public class Level {
     public BunnyHead bunnyHead;
     public Array<GoldIcon> goldIcons;
     public Array<Feather> feathers;
+
     public Level(String fileName) {
         init(fileName);
     }
@@ -126,6 +127,10 @@ public class Level {
         waterOverlay.render(batch);
 
         clouds.render(batch);
+    }
+
+    public void update(float deltaTime) {
+        bunnyHead.update(deltaTime);
     }
 
 
