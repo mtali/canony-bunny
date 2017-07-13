@@ -33,6 +33,10 @@ public class Constants {
     public static final String FONTS = "images/arial-15.fnt";
     // Power Up
     public static final float ITEM_FEATHER_POWERUP_DURATION = 9.0f;
+    // BunnyHead
+    public static final float JUMP_TIME_MAX = 0.3f;
+    public static final float JUMP_TIME_MIN = 0.1f;
+    public static final float JUMP_TIME_OFFSET_FLYING = JUMP_TIME_MAX - 0.018f;
     // Camera constants
     static final float MAX_ZOOM_IN = 0.25f;
     static final float MAX_ZOOM_OUT = 10f;
