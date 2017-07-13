@@ -17,6 +17,7 @@ public class WorldRenderer implements Disposable {
     private SpriteBatch batch;
     private WorldController worldController;
 
+
     public WorldRenderer(WorldController worldController) {
         this.worldController = worldController;
         init();
@@ -32,6 +33,7 @@ public class WorldRenderer implements Disposable {
         cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
         cameraGUI.setToOrtho(true);
         cameraGUI.update();
+
     }
 
     public void render() {
@@ -64,7 +66,7 @@ public class WorldRenderer implements Disposable {
         Assets.instance.assetFonts.defaultBig.draw(
                 batch,
                 String.valueOf(worldController.score),
-                x + 75 ,
+                x + 75,
                 y + 37
         );
     }
@@ -102,7 +104,7 @@ public class WorldRenderer implements Disposable {
         } else if (fps >= 30) {
             // 30 or more FPS show up in yellow
             fpsFont.setColor(1, 1, 0, 1);
-        }else {
+        } else {
             // less than 30 show up in red
             fpsFont.setColor(1, 0, 0, 1);
         }
@@ -111,7 +113,7 @@ public class WorldRenderer implements Disposable {
         fpsFont.setColor(1, 1, 1, 1); // reset font color
     }
 
-    private void renderGui(SpriteBatch batch){
+    private void renderGui(SpriteBatch batch) {
         batch.setProjectionMatrix(cameraGUI.combined);
         batch.begin();
         renderGuiScore(batch);

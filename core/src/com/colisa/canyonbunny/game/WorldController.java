@@ -22,9 +22,10 @@ public class WorldController extends InputAdapter {
         init();
     }
 
-    private void initLevel(){
+    private void initLevel() {
         score = 0;
         level = new Level(Constants.LEVEL_1);
+        cameraHelper.setTarget(level.bunnyHead);
     }
 
     private void init() {
@@ -37,14 +38,13 @@ public class WorldController extends InputAdapter {
 
     public void update(float deltaTime) {
         handleDebugInput(deltaTime);
-        level.update(deltaTime);
         cameraHelper.update(deltaTime);
     }
 
     private void handleDebugInput(float deltaTime) {
         if (Gdx.app.getType() != Application.ApplicationType.Desktop) return;
 
-        if (!cameraHelper.hasTarget()) {
+        if (!cameraHelper.hasTarget(level.bunnyHead)) {
             // Camera Control (move)
             float cameraMoveSpeed = 5 * deltaTime;
             float cameraMoveSpeedAccelerationFactor = 10;
@@ -75,13 +75,15 @@ public class WorldController extends InputAdapter {
     }
 
 
-
     @Override
     public boolean keyUp(int keycode) {
 
         if (keycode == Input.Keys.R) {
             init();
             Gdx.app.debug(TAG, "Game world resettled");
+        } else if (keycode == Input.Keys.ENTER) {
+            cameraHelper.setTarget(cameraHelper.hasTarget() ? null : level.bunnyHead);
+            Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
         }
         return false;
     }

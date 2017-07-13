@@ -17,7 +17,6 @@ public class GoldIcon extends AbstractGameObject {
     private void init(){
         dimension.set(0.5f, 0.5f);
         regionGoldIcon = Assets.instance.goldCoinAssets.goldCoin;
-        bounds.set(0, 0, dimension.x, dimension.y);
         collected = false;
     }
 

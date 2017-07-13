@@ -16,7 +16,6 @@ public class Feather extends AbstractGameObject {
     private void init(){
         dimension.set(0.5f, 0.5f);
         regionFeather = Assets.instance.featherAssets.feather;
-        bounds.set(0, 0, dimension.x, dimension.y);
         collected = false;
     }
 
