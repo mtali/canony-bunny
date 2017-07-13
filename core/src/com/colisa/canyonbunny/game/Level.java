@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.colisa.canyonbunny.game.objects.AbstractGameObject;
+import com.colisa.canyonbunny.game.objects.BunnyHead;
 import com.colisa.canyonbunny.game.objects.Clouds;
+import com.colisa.canyonbunny.game.objects.Feather;
+import com.colisa.canyonbunny.game.objects.GoldIcon;
 import com.colisa.canyonbunny.game.objects.Mountains;
 import com.colisa.canyonbunny.game.objects.Rock;
 import com.colisa.canyonbunny.game.objects.WaterOverlay;
@@ -20,12 +23,20 @@ public class Level {
     public Clouds clouds;
     public Mountains mountains;
     public WaterOverlay waterOverlay;
+    public BunnyHead bunnyHead;
+    public Array<GoldIcon> goldIcons;
+    public Array<Feather> feathers;
     public Level(String fileName) {
         init(fileName);
     }
 
     public void init(String fileName) {
+        // player character
+        bunnyHead = null;
+        // objects
         rocks = new Array<Rock>();
+        goldIcons = new Array<GoldIcon>();
+        feathers = new Array<Feather>();
 
         // load image file that represent the level data
         Pixmap pixmap = new Pixmap(Gdx.files.internal(fileName));
@@ -50,16 +61,25 @@ public class Level {
                         float heightIncreaseFactor = 0.25f;
                         offsetHeight = -2.5f;
                         obj.position.set(pixelX, baseHeight * obj.dimension.y * heightIncreaseFactor + offsetHeight);
-                        rocks.add((Rock)obj);
+                        rocks.add((Rock) obj);
                     } else {
                         rocks.get(rocks.size - 1).increaseLength(1);
                     }
-                } else if(BLOCK_TYPE.PLAYER_SPAWN_POINT.sameColor(currentPixel)){
-
-                } else if (BLOCK_TYPE.ITEM_FEATHER.sameColor(currentPixel)){
-
-                } else if (BLOCK_TYPE.ITEM_GOLD_COIN.sameColor(currentPixel)){
-
+                } else if (BLOCK_TYPE.PLAYER_SPAWN_POINT.sameColor(currentPixel)) {
+                    obj = new BunnyHead();
+                    offsetHeight = -3f;
+                    obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+                    bunnyHead = (BunnyHead) obj;
+                } else if (BLOCK_TYPE.ITEM_FEATHER.sameColor(currentPixel)) {
+                    obj = new Feather();
+                    offsetHeight = -1.5f;
+                    obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+                    feathers.add((Feather) obj);
+                } else if (BLOCK_TYPE.ITEM_GOLD_COIN.sameColor(currentPixel)) {
+                    obj = new GoldIcon();
+                    offsetHeight = -1.5f;
+                    obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+                    goldIcons.add((GoldIcon) obj);
                 } else {
                     // Unknown object / pixel color
 
@@ -68,7 +88,7 @@ public class Level {
                     int b = 0xff & (currentPixel >>> 8);    // blue color channel
                     int a = 0xff & currentPixel;            // alpha channel
                     Gdx.app.error(TAG, "Unknown object at x<" + pixelX + "> y<" + pixelY +
-                            ">: r<"+ r + "> g<" + g + "> b<" + b + "> a<" + a + ">"
+                            ">: r<" + r + "> g<" + g + "> b<" + b + "> a<" + a + ">"
                     );
                 }
                 lastPixel = currentPixel;
@@ -89,15 +109,38 @@ public class Level {
     }
 
     public void render(SpriteBatch batch) {
+
         mountains.render(batch);
 
-        for (Rock rock: rocks){
+        for (Rock rock : rocks)
             rock.render(batch);
-        }
+
+        for (GoldIcon goldIcon : goldIcons)
+            goldIcon.render(batch);
+
+        for (Feather feather : feathers)
+            feather.render(batch);
+
+        bunnyHead.render(batch);
 
         waterOverlay.render(batch);
 
         clouds.render(batch);
+    }
+
+    public void update(float deltaTime) {
+        bunnyHead.update(deltaTime);
+
+        for (Rock rock: rocks)
+            rock.update(deltaTime);
+
+        for (GoldIcon goldIcon: goldIcons)
+            goldIcon.update(deltaTime);
+
+        for (Feather feather: feathers)
+            feather.update(deltaTime);
+
+        clouds.update(deltaTime);
     }
 
     public enum BLOCK_TYPE {

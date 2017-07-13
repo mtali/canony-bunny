@@ -29,11 +29,11 @@ public class Constants {
     public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
 
     public static final int LIVES_START = 3;
-
+    // Fonts
+    public static final String FONTS = "images/arial-15.fnt";
+    // Power Up
+    public static final float ITEM_FEATHER_POWERUP_DURATION = 9.0f;
     // Camera constants
     static final float MAX_ZOOM_IN = 0.25f;
     static final float MAX_ZOOM_OUT = 10f;
-
-    // Fonts
-    public static final String FONTS = "images/arial-15.fnt";
 }
