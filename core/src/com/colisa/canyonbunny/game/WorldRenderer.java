@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.colisa.canyonbunny.util.Constants;
 
@@ -117,8 +118,10 @@ public class WorldRenderer implements Disposable {
         batch.setProjectionMatrix(cameraGUI.combined);
         batch.begin();
         renderGuiScore(batch);
+        renderGiuFeatherPowerUp(batch);
         renderGuiExtraLive(batch);
         renderGuiFpsCounter(batch);
+        renderGuiGameOverMessage(batch);
         batch.end();
     }
 
@@ -136,6 +139,52 @@ public class WorldRenderer implements Disposable {
         cameraGUI.update();
     }
 
+    private void renderGuiGameOverMessage(SpriteBatch batch){
+        float x = cameraGUI.viewportWidth / 2;
+        float y = cameraGUI.viewportHeight / 2;
+
+        if (worldController.isGameOver()) {
+            BitmapFont fontGameOver = Assets.instance.assetFonts.defaultBig;
+            fontGameOver.setColor(1, 0.75f, 0.25f, 1 );
+            fontGameOver.draw(batch, "GAME OVER", x, y, 0, Align.center, true);
+            fontGameOver.setColor(1, 1, 1, 1);
+        }
+
+    }
+
+    private void renderGiuFeatherPowerUp(SpriteBatch batch){
+        float x = -15;
+        float y = 30;
+        float timeLeftFeatherPowerUp = worldController.level.bunnyHead.timeLeftFeatherPowerUp;
+        if (timeLeftFeatherPowerUp > 0){
+            // Start icon fade in/out if the lef power-up time is less than 4 seconds. Fade interval
+            // is set to 5 changes per second
+            if (timeLeftFeatherPowerUp < 4){
+                if  (((int)(timeLeftFeatherPowerUp * 5) % 2) != 0) {
+                    batch.setColor(1, 1 ,1, 0.5f);
+                }
+            }
+            batch.draw(
+                    Assets.instance.featherAssets.feather,
+                    x,
+                    y,
+                    50,
+                    50,
+                    100,
+                    100,
+                    0.35f,
+                    -0.35f,
+                    0
+            );
+
+            Assets.instance.assetFonts.defaultSmall.draw(
+                    batch,
+                    String.valueOf((int) timeLeftFeatherPowerUp),
+                    x + 60,
+                    y + 57
+            );
+        }
+    }
     @Override
     public void dispose() {
         batch.dispose();

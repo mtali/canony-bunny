@@ -23,6 +23,8 @@ public class WorldController extends InputAdapter {
     public int lives;
     public int score;
 
+    private float timeLeftGameOver;
+
     // Rectangles for collision detection
     private Rectangle r1 = new Rectangle();
     private Rectangle r2 = new Rectangle();
@@ -44,16 +46,30 @@ public class WorldController extends InputAdapter {
         Gdx.input.setInputProcessor(this);
         cameraHelper = new CameraHelper();
         lives = Constants.LIVES_START;
+        timeLeftGameOver = 0;
         initLevel();
     }
 
 
     public void update(float deltaTime) {
         handleDebugInput(deltaTime);
-        handleInputGame(deltaTime);
+        if (isGameOver()){
+            timeLeftGameOver -= deltaTime;
+            if (timeLeftGameOver < 0) init();
+        }else{
+            handleInputGame(deltaTime);
+        }
         level.update(deltaTime);
         testCollision();
         cameraHelper.update(deltaTime);
+
+        if (!isGameOver() && isPlayerInWater()){
+            lives --;
+            if (isGameOver())
+                timeLeftGameOver = Constants.TIME_DELAY_GAME_OVER;
+            else
+                initLevel();
+        }
     }
 
     private void handleDebugInput(float deltaTime) {
@@ -188,4 +204,11 @@ public class WorldController extends InputAdapter {
         }
     }
 
+    public boolean isGameOver (){
+        return lives < 0;
+    }
+
+    public boolean isPlayerInWater(){
+        return bunnyHead.position.y < -5;
+    }
 }
