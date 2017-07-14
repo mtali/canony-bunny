@@ -53,6 +53,7 @@ public class CanyonBunnyMain extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
+        Gdx.app.debug(TAG, "Application resized");
         worldRenderer.resize(width, height);
     }
 

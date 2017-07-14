@@ -49,7 +49,7 @@ public abstract class AbstractGameObject {
 
         // Initializing object physics attributes
         velocity = new Vector2();
-        terminalVelocity = new Vector2();
+        terminalVelocity = new Vector2(1,1);
         friction = new Vector2();
         acceleration = new Vector2();
         bounds = new Rectangle();

@@ -64,7 +64,7 @@ public class BunnyHead extends AbstractGameObject {
     }
 
     public void setFeatherPowerUp(boolean picked) {
-        hasFeatherPowerUp = true;
+        hasFeatherPowerUp = picked;
         if (picked) {
             timeLeftFeatherPowerUp = Constants.ITEM_FEATHER_POWERUP_DURATION;
         }

@@ -68,7 +68,7 @@ public class Level {
                     }
                 } else if (BLOCK_TYPE.PLAYER_SPAWN_POINT.sameColor(currentPixel)) {
                     obj = new BunnyHead();
-                    offsetHeight = -3f;
+                    offsetHeight = 0f;
                     obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
                     bunnyHead = (BunnyHead) obj;
                 } else if (BLOCK_TYPE.ITEM_FEATHER.sameColor(currentPixel)) {
@@ -131,6 +131,9 @@ public class Level {
 
     public void update(float deltaTime) {
         bunnyHead.update(deltaTime);
+        for (Rock rock : rocks){
+            rock.update(deltaTime);
+        }
     }
 
 

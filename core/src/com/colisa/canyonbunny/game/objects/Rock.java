@@ -20,13 +20,13 @@ public class Rock extends AbstractGameObject {
         dimension.set(1, 1.5f);
         regionEdge = Assets.instance.rockAssets.edge;
         regionMiddle = Assets.instance.rockAssets.middle;
-
         // Start length of this rock
         setLength(1);
     }
 
     private void setLength(int length) {
         this.length = length;
+        bounds.set(0, 0, dimension.x * length, dimension.y);
     }
 
     public void increaseLength(int amount) {
