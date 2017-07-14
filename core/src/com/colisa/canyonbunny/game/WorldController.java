@@ -7,6 +7,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Rectangle;
 import com.colisa.canyonbunny.game.objects.BunnyHead;
+import com.colisa.canyonbunny.game.objects.Feather;
+import com.colisa.canyonbunny.game.objects.GoldIcon;
 import com.colisa.canyonbunny.game.objects.Rock;
 import com.colisa.canyonbunny.util.CameraHelper;
 import com.colisa.canyonbunny.util.Constants;
@@ -108,11 +110,39 @@ public class WorldController extends InputAdapter {
         // Test collision with rocks
         for (Rock r : level.rocks) {
             r2.set(r.position.x, r.position.y, r.bounds.width, r.bounds.height);
-            if (r1.overlaps(r2))
-                onCollisionBunnyWithRock(r);
+            if (!r1.overlaps(r2)) continue;
+            onCollisionBunnyWithRock(r);
+        }
+
+        // Test collision bunny heaad with gold coins
+        for (GoldIcon gi : level.goldIcons){
+            if (gi.collected) continue;
+            r2.set(gi.position.x, gi.position.y, gi.bounds.width, gi.bounds.height);
+            if (!r1.overlaps(r2)) continue;
+            onCollisionBunnyWithGoldIcon(gi);
+        }
+
+        // Test collision bunny head with feather
+        for (Feather feather : level.feathers){
+            if (feather.collected) continue;
+            r2.set(feather.position.x, feather.position.y, feather.bounds.width, feather.bounds.height);
+            if (!r1.overlaps(r2)) continue;
+            onCollisionBunnyWithFeather(feather);
         }
     }
 
+    private void onCollisionBunnyWithFeather(Feather feather){
+        feather.collected = true;
+        score += feather.getScore();
+        bunnyHead.setFeatherPowerUp(true);
+        Gdx.app.log(TAG, "Feather collected");
+    }
+
+    private void onCollisionBunnyWithGoldIcon(GoldIcon goldIcon){
+        goldIcon.collected = true;
+        score += goldIcon.getScore();
+        Gdx.app.log(TAG, "Gold coin collected");
+    }
     private void onCollisionBunnyWithRock(Rock rock) {
         float heightDifference = Math.abs(bunnyHead.position.y - (rock.position.y + rock.bounds.height));
         if (heightDifference > 0.25f) {
