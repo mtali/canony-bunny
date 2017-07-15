@@ -106,7 +106,7 @@ public class Level {
 
         // free memory
         pixmap.dispose();
-        Gdx.app.debug(TAG, "level '" + fileName + "' loaded");
+        Gdx.app.debug(TAG, "Level loading completed");
     }
 
     public void render(SpriteBatch batch) {

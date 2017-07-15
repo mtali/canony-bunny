@@ -2,6 +2,7 @@ package com.colisa.canyonbunny.game;
 
 
 import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -10,6 +11,7 @@ import com.colisa.canyonbunny.game.objects.BunnyHead;
 import com.colisa.canyonbunny.game.objects.Feather;
 import com.colisa.canyonbunny.game.objects.GoldIcon;
 import com.colisa.canyonbunny.game.objects.Rock;
+import com.colisa.canyonbunny.screens.MenuScreen;
 import com.colisa.canyonbunny.util.CameraHelper;
 import com.colisa.canyonbunny.util.Constants;
 import com.colisa.canyonbunny.util.Enums;
@@ -22,16 +24,16 @@ public class WorldController extends InputAdapter {
     public Level level;
     public int lives;
     public int score;
-
-    private float timeLeftGameOver;
-
+    public float timeLeftGameOver;
+    private Game game;
     // Rectangles for collision detection
     private Rectangle r1 = new Rectangle();
     private Rectangle r2 = new Rectangle();
     private BunnyHead bunnyHead;
 
 
-    public WorldController() {
+    public WorldController(Game game) {
+        this.game = game;
         init();
     }
 
@@ -55,7 +57,9 @@ public class WorldController extends InputAdapter {
         handleDebugInput(deltaTime);
         if (isGameOver()){
             timeLeftGameOver -= deltaTime;
-            if (timeLeftGameOver < 0) init();
+            if (timeLeftGameOver < 0){
+                return;
+            }
         }else{
             handleInputGame(deltaTime);
         }
@@ -115,6 +119,8 @@ public class WorldController extends InputAdapter {
         } else if (keycode == Input.Keys.ENTER) {
             cameraHelper.setTarget(cameraHelper.hasTarget() ? null : level.bunnyHead);
             Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
+        } else if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK){
+            backToMenu();
         }
         return false;
     }
@@ -210,5 +216,10 @@ public class WorldController extends InputAdapter {
 
     public boolean isPlayerInWater(){
         return bunnyHead.position.y < -5;
+    }
+
+    public void backToMenu(){
+        game.setScreen(new MenuScreen(game));
+        Gdx.app.debug(TAG, "switched back to menu screen.");
     }
 }
