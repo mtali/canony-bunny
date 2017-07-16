@@ -96,7 +96,7 @@ project(":core") {
         outputs.dir outputDir
         doLast {
             if (rebuildAtlas){
-                delete(outputDir)
+                //delete(outputDir)
                 def settings = new Settings()
                 settings.maxWidth = 1024
                 settings.maxHeight = 1024
