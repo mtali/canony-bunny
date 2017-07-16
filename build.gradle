@@ -86,24 +86,23 @@ project(":core") {
     }
 
     task packTextures {
-        def rebuildAtlas = false
+        def rebuildAtlas = true
         def drawDebugOutline = false
         def inputDir = "$rootDir/core/rawAssets/images"
         def outputDir = "$rootDir/android/assets/images"
         def inputDirUI = "$rootDir/core/rawAssets/images-ui"
-        def outputDirUI = "$rootDir/android/assets/images-ui"
         inputs.dir inputDir
         outputs.dir outputDir
         doLast {
             if (rebuildAtlas){
-                //delete(outputDir)
+                delete(outputDir)
                 def settings = new Settings()
                 settings.maxWidth = 1024
                 settings.maxHeight = 1024
                 settings.duplicatePadding = false
                 settings.debug = drawDebugOutline
                 TexturePacker.process(settings, inputDir, outputDir, "canyonbunny.pack")
-                TexturePacker.process(settings, inputDirUI, outputDirUI, "canyonbunny-ui.pack" )
+                TexturePacker.process(settings, inputDirUI, outputDir, "canyonbunny-ui.pack" )
             }
         }
     }
