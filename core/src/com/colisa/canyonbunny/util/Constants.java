@@ -31,7 +31,7 @@ public class Constants {
 
     public static final int LIVES_START = 3;
     // Fonts
-    public static final String FONTS = "images/arial-15.fnt";
+    public static final String FONTS = "fonts/arial-15.fnt";
     // Power Up
     public static final float ITEM_FEATHER_POWERUP_DURATION = 9.0f;
     // BunnyHead
