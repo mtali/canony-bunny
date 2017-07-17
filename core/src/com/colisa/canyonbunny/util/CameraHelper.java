@@ -34,8 +34,8 @@ public class CameraHelper {
     public void update(float deltaTime) {
         // If camera doesn't have a target
         if (!hasTarget()) return;
-        position.x = target.position.x + target.origin.x;
-        position.y = target.position.y + target.origin.y;
+
+        position.lerp(target.position, Constants.FOLLOW_SPEED * deltaTime);
 
         // Prevent camera from moving down too far
         position.y = Math.max(-1, position.y);

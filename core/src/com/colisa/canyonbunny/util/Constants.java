@@ -54,4 +54,7 @@ public class Constants {
     // Camera constants
     static final float MAX_ZOOM_IN = 0.25f;
     static final float MAX_ZOOM_OUT = 10f;
+
+    // Camera Helper
+    public static final float FOLLOW_SPEED = 4.0f;
 }
