@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.colisa.canyonbunny.util.Constants;
+import com.colisa.canyonbunny.util.GamePreferences;
 
 
 public class WorldRenderer implements Disposable {
@@ -120,7 +121,8 @@ public class WorldRenderer implements Disposable {
         renderGuiScore(batch);
         renderGiuFeatherPowerUp(batch);
         renderGuiExtraLive(batch);
-        renderGuiFpsCounter(batch);
+        if (GamePreferences.instance.showFPSCounter)
+            renderGuiFpsCounter(batch);
         renderGuiGameOverMessage(batch);
         batch.end();
     }

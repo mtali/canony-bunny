@@ -86,7 +86,7 @@ project(":core") {
     }
 
     task packTextures {
-        def rebuildAtlas = true
+        def rebuildAtlas = false
         def drawDebugOutline = false
         def inputDir = "$rootDir/core/rawAssets/images"
         def outputDir = "$rootDir/android/assets/images"

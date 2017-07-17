@@ -3,9 +3,11 @@ package com.colisa.canyonbunny.game.objects;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.colisa.canyonbunny.game.Assets;
+import com.colisa.canyonbunny.util.CharacterSkin;
 import com.colisa.canyonbunny.util.Constants;
 import com.colisa.canyonbunny.util.Enums.JUMP_STATE;
 import com.colisa.canyonbunny.util.Enums.VIEW_DIRECTION;
+import com.colisa.canyonbunny.util.GamePreferences;
 
 @SuppressWarnings("WeakerAccess")
 public class BunnyHead extends AbstractGameObject {
@@ -128,6 +130,9 @@ public class BunnyHead extends AbstractGameObject {
 
     @Override
     public void render(SpriteBatch batch) {
+
+        batch.setColor(CharacterSkin.values()[GamePreferences.instance.characterSkin].getColor());
+
         if (hasFeatherPowerUp)
             batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
 
