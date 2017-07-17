@@ -134,6 +134,8 @@ public class Level {
         for (Rock rock : rocks){
             rock.update(deltaTime);
         }
+
+        clouds.update(deltaTime);
     }
 
 
