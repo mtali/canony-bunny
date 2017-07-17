@@ -1,5 +1,7 @@
 package com.colisa.canyonbunny.game.objects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.colisa.canyonbunny.game.Assets;
@@ -19,6 +21,8 @@ public class BunnyHead extends AbstractGameObject {
     public float timeLeftFeatherPowerUp;
     private TextureRegion region;
 
+    public ParticleEffect dustParticle = new ParticleEffect();
+
     public BunnyHead() {
         init();
     }
@@ -33,6 +37,10 @@ public class BunnyHead extends AbstractGameObject {
         timeJumping = 0;
         hasFeatherPowerUp = false;
         timeLeftFeatherPowerUp = 0;
+
+        // Particles
+        dustParticle.load(Gdx.files.internal(Constants.DUST_PARTICLES), Gdx.files.internal("particles"));
+
 
         // Each object has to initialize its physical attributes which are :-
         // velocity, terminalVelocity, friction, acceleration and bounds
@@ -91,6 +99,7 @@ public class BunnyHead extends AbstractGameObject {
                 setFeatherPowerUp(false);
             }
         }
+        dustParticle.update(deltaTime);
     }
 
     /**
@@ -104,6 +113,10 @@ public class BunnyHead extends AbstractGameObject {
         switch (jumpState) {
             case GROUNDED:
                 jumpState = JUMP_STATE.FALLING;
+                if (velocity.x != 0){
+                    dustParticle.setPosition(position.x + dimension.x/2, position.y);
+                    dustParticle.start();
+                }
                 break;
 
             case JUMP_RISING:
@@ -124,12 +137,18 @@ public class BunnyHead extends AbstractGameObject {
                     velocity.y = terminalVelocity.y;
                 }
         }
-        if (jumpState != JUMP_STATE.GROUNDED)
+        if (jumpState != JUMP_STATE.GROUNDED){
+            dustParticle.allowCompletion();
             super.updateMotionY(deltaTime);
+        }
+
     }
 
     @Override
     public void render(SpriteBatch batch) {
+        // Draw particle
+        dustParticle.setPosition(position.x + origin.x, position.y);
+        dustParticle.draw(batch);
 
         batch.setColor(CharacterSkin.values()[GamePreferences.instance.characterSkin].getColor());
 
