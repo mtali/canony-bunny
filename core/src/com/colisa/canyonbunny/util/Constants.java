@@ -57,4 +57,8 @@ public class Constants {
 
     // Camera Helper
     public static final float FOLLOW_SPEED = 4.0f;
+
+    // Rocks
+    public static final float FLOAT_CIRCLE_TIME = 2.0F;
+    public static final float FLOAT_AMPLITUDE = 0.25f;
 }

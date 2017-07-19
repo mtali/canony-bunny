@@ -3,12 +3,20 @@ package com.colisa.canyonbunny.game.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.colisa.canyonbunny.game.Assets;
+import com.colisa.canyonbunny.util.Constants;
 
 public class Rock extends AbstractGameObject {
 
     private TextureRegion regionEdge;
     private TextureRegion regionMiddle;
+
+    // Floating effect
+    private float floatCycleTimeLeft;
+    private boolean floatingDownwards;
+    private Vector2 floatTargetPosition;
 
     private int length;
 
@@ -22,6 +30,10 @@ public class Rock extends AbstractGameObject {
         regionMiddle = Assets.instance.rockAssets.middle;
         // Start length of this rock
         setLength(1);
+
+        floatingDownwards = false;
+        floatCycleTimeLeft = MathUtils.random(0, Constants.FLOAT_CIRCLE_TIME);
+        floatTargetPosition = null;
     }
 
     private void setLength(int length) {
@@ -31,6 +43,24 @@ public class Rock extends AbstractGameObject {
 
     public void increaseLength(int amount) {
         setLength(length + amount);
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+
+        floatCycleTimeLeft -= deltaTime;
+        if (floatTargetPosition == null) {
+            floatTargetPosition = new Vector2(position);
+        }
+
+        if (floatCycleTimeLeft <= 0) {
+            floatCycleTimeLeft = Constants.FLOAT_CIRCLE_TIME;
+            floatingDownwards = !floatingDownwards;
+            floatTargetPosition.y += Constants.FLOAT_AMPLITUDE * (floatingDownwards ? -1 : 1);
+        }
+
+        position.lerp(floatTargetPosition, deltaTime);
     }
 
     @Override
