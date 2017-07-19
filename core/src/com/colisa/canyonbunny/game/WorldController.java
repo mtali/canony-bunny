@@ -31,6 +31,8 @@ public class WorldController extends InputAdapter {
     private Rectangle r2 = new Rectangle();
     private BunnyHead bunnyHead;
 
+    public float livesVisual;
+
 
     public WorldController(Game game) {
         this.game = game;
@@ -48,6 +50,7 @@ public class WorldController extends InputAdapter {
         Gdx.input.setInputProcessor(this);
         cameraHelper = new CameraHelper();
         lives = Constants.LIVES_START;
+        livesVisual = lives;
         timeLeftGameOver = 0;
         initLevel();
     }
@@ -55,20 +58,20 @@ public class WorldController extends InputAdapter {
 
     public void update(float deltaTime) {
         handleDebugInput(deltaTime);
-        if (isGameOver()){
+        if (isGameOver()) {
             timeLeftGameOver -= deltaTime;
-            if (timeLeftGameOver < 0){
+            if (timeLeftGameOver < 0) {
                 return;
             }
-        }else{
+        } else {
             handleInputGame(deltaTime);
         }
         level.update(deltaTime);
         testCollision();
         cameraHelper.update(deltaTime);
 
-        if (!isGameOver() && isPlayerInWater()){
-            lives --;
+        if (!isGameOver() && isPlayerInWater()) {
+            lives--;
             if (isGameOver())
                 timeLeftGameOver = Constants.TIME_DELAY_GAME_OVER;
             else
@@ -76,6 +79,10 @@ public class WorldController extends InputAdapter {
         }
 
         level.mountains.updateScrollPosition(cameraHelper.getPosition());
+
+        if (livesVisual > lives) {
+            livesVisual = Math.max(lives, livesVisual - 1 * deltaTime);
+        }
     }
 
     private void handleDebugInput(float deltaTime) {
@@ -121,7 +128,7 @@ public class WorldController extends InputAdapter {
         } else if (keycode == Input.Keys.ENTER) {
             cameraHelper.setTarget(cameraHelper.hasTarget() ? null : level.bunnyHead);
             Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
-        } else if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK){
+        } else if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
             backToMenu();
         }
         return false;
@@ -139,7 +146,7 @@ public class WorldController extends InputAdapter {
         }
 
         // Test collision bunny heaad with gold coins
-        for (GoldIcon gi : level.goldIcons){
+        for (GoldIcon gi : level.goldIcons) {
             if (gi.collected) continue;
             r2.set(gi.position.x, gi.position.y, gi.bounds.width, gi.bounds.height);
             if (!r1.overlaps(r2)) continue;
@@ -147,7 +154,7 @@ public class WorldController extends InputAdapter {
         }
 
         // Test collision bunny head with feather
-        for (Feather feather : level.feathers){
+        for (Feather feather : level.feathers) {
             if (feather.collected) continue;
             r2.set(feather.position.x, feather.position.y, feather.bounds.width, feather.bounds.height);
             if (!r1.overlaps(r2)) continue;
@@ -155,18 +162,19 @@ public class WorldController extends InputAdapter {
         }
     }
 
-    private void onCollisionBunnyWithFeather(Feather feather){
+    private void onCollisionBunnyWithFeather(Feather feather) {
         feather.collected = true;
         score += feather.getScore();
         bunnyHead.setFeatherPowerUp(true);
         Gdx.app.log(TAG, "Feather collected");
     }
 
-    private void onCollisionBunnyWithGoldIcon(GoldIcon goldIcon){
+    private void onCollisionBunnyWithGoldIcon(GoldIcon goldIcon) {
         goldIcon.collected = true;
         score += goldIcon.getScore();
         Gdx.app.log(TAG, "Gold coin collected");
     }
+
     private void onCollisionBunnyWithRock(Rock rock) {
         float heightDifference = Math.abs(bunnyHead.position.y - (rock.position.y + rock.bounds.height));
         if (heightDifference > 0.25f) {
@@ -212,15 +220,15 @@ public class WorldController extends InputAdapter {
         }
     }
 
-    public boolean isGameOver (){
+    public boolean isGameOver() {
         return lives < 0;
     }
 
-    public boolean isPlayerInWater(){
+    public boolean isPlayerInWater() {
         return bunnyHead.position.y < -5;
     }
 
-    public void backToMenu(){
+    public void backToMenu() {
         game.setScreen(new MenuScreen(game));
         Gdx.app.debug(TAG, "switched back to menu screen.");
     }

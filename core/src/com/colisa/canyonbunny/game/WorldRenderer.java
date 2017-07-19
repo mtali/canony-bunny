@@ -93,6 +93,27 @@ public class WorldRenderer implements Disposable {
             );
             batch.setColor(1, 1, 1, 1);
         }
+
+        if (worldController.lives >= 0 && worldController.livesVisual > worldController.lives) {
+            int i = worldController.lives;
+            float alphaColor = Math.max(0, worldController.livesVisual - worldController.lives - 0.5f);
+            float alphaScale = 0.35f * (2 + worldController.lives - worldController.livesVisual) * 2;
+            float alphaRotate = -45 * alphaColor;
+            batch.setColor(1.0f, 0.7f, 0.7f, alphaColor);
+            batch.draw(
+                    Assets.instance.bunnyAssets.head,
+                    x + i * 50,
+                    y,
+                    50,
+                    50,
+                    120,
+                    100,
+                    alphaScale,
+                    -alphaScale,
+                    alphaRotate
+            );
+            batch.setColor(1, 1, 1, 1);
+        }
     }
 
     private void renderGuiFpsCounter(SpriteBatch batch) {
@@ -141,29 +162,29 @@ public class WorldRenderer implements Disposable {
         cameraGUI.update();
     }
 
-    private void renderGuiGameOverMessage(SpriteBatch batch){
+    private void renderGuiGameOverMessage(SpriteBatch batch) {
         float x = cameraGUI.viewportWidth / 2;
         float y = cameraGUI.viewportHeight / 2;
 
         if (worldController.isGameOver()) {
             BitmapFont fontGameOver = Assets.instance.assetFonts.defaultBig;
-            fontGameOver.setColor(1, 0.75f, 0.25f, 1 );
+            fontGameOver.setColor(1, 0.75f, 0.25f, 1);
             fontGameOver.draw(batch, "GAME OVER", x, y, 0, Align.center, true);
             fontGameOver.setColor(1, 1, 1, 1);
         }
 
     }
 
-    private void renderGiuFeatherPowerUp(SpriteBatch batch){
+    private void renderGiuFeatherPowerUp(SpriteBatch batch) {
         float x = -15;
         float y = 30;
         float timeLeftFeatherPowerUp = worldController.level.bunnyHead.timeLeftFeatherPowerUp;
-        if (timeLeftFeatherPowerUp > 0){
+        if (timeLeftFeatherPowerUp > 0) {
             // Start icon fade in/out if the lef power-up time is less than 4 seconds. Fade interval
             // is set to 5 changes per second
-            if (timeLeftFeatherPowerUp < 4){
-                if  (((int)(timeLeftFeatherPowerUp * 5) % 2) != 0) {
-                    batch.setColor(1, 1 ,1, 0.5f);
+            if (timeLeftFeatherPowerUp < 4) {
+                if (((int) (timeLeftFeatherPowerUp * 5) % 2) != 0) {
+                    batch.setColor(1, 1, 1, 0.5f);
                 }
             }
             batch.draw(
@@ -187,6 +208,7 @@ public class WorldRenderer implements Disposable {
             );
         }
     }
+
     @Override
     public void dispose() {
         batch.dispose();
