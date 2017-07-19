@@ -1,13 +1,13 @@
 package com.colisa.canyonbunny;
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.colisa.canyonbunny.game.Assets;
+import com.colisa.canyonbunny.screens.DirectedGame;
 import com.colisa.canyonbunny.screens.MenuScreen;
 
-public class CanyonBunnyMain extends Game {
+public class CanyonBunnyMain extends DirectedGame {
     private static final String TAG = CanyonBunnyMain.class.getName();
 
     @Override

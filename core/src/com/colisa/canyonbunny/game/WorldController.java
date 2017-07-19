@@ -2,7 +2,6 @@ package com.colisa.canyonbunny.game;
 
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -11,6 +10,7 @@ import com.colisa.canyonbunny.game.objects.BunnyHead;
 import com.colisa.canyonbunny.game.objects.Feather;
 import com.colisa.canyonbunny.game.objects.GoldIcon;
 import com.colisa.canyonbunny.game.objects.Rock;
+import com.colisa.canyonbunny.screens.DirectedGame;
 import com.colisa.canyonbunny.screens.MenuScreen;
 import com.colisa.canyonbunny.util.CameraHelper;
 import com.colisa.canyonbunny.util.Constants;
@@ -25,17 +25,16 @@ public class WorldController extends InputAdapter {
     public int lives;
     public int score;
     public float timeLeftGameOver;
-    private Game game;
+    public float livesVisual;
+    public float scoreVirtual;
+    private DirectedGame game;
     // Rectangles for collision detection
     private Rectangle r1 = new Rectangle();
     private Rectangle r2 = new Rectangle();
     private BunnyHead bunnyHead;
 
-    public float livesVisual;
-    public float scoreVirtual;
 
-
-    public WorldController(Game game) {
+    public WorldController(DirectedGame game) {
         this.game = game;
         init();
     }
@@ -49,7 +48,6 @@ public class WorldController extends InputAdapter {
     }
 
     private void init() {
-        Gdx.input.setInputProcessor(this);
         cameraHelper = new CameraHelper();
         lives = Constants.LIVES_START;
         livesVisual = lives;
@@ -151,7 +149,7 @@ public class WorldController extends InputAdapter {
             onCollisionBunnyWithRock(r);
         }
 
-        // Test collision bunny heaad with gold coins
+        // Test collision bunny head with gold coins
         for (GoldIcon gi : level.goldIcons) {
             if (gi.collected) continue;
             r2.set(gi.position.x, gi.position.y, gi.bounds.width, gi.bounds.height);
