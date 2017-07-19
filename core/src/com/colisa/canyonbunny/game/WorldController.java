@@ -32,6 +32,7 @@ public class WorldController extends InputAdapter {
     private BunnyHead bunnyHead;
 
     public float livesVisual;
+    public float scoreVirtual;
 
 
     public WorldController(Game game) {
@@ -41,6 +42,7 @@ public class WorldController extends InputAdapter {
 
     private void initLevel() {
         score = 0;
+        scoreVirtual = score;
         level = new Level(Constants.LEVEL_1);
         cameraHelper.setTarget(level.bunnyHead);
         bunnyHead = level.bunnyHead;
@@ -82,6 +84,10 @@ public class WorldController extends InputAdapter {
 
         if (livesVisual > lives) {
             livesVisual = Math.max(lives, livesVisual - 1 * deltaTime);
+        }
+
+        if (scoreVirtual < score){
+            scoreVirtual = Math.min(score, scoreVirtual + 250 * deltaTime);
         }
     }
 

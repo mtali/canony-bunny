@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.colisa.canyonbunny.util.Constants;
@@ -54,11 +55,19 @@ public class WorldRenderer implements Disposable {
     private void renderGuiScore(SpriteBatch batch) {
         float x = -15;
         float y = -15;
+        float offsetX = 50;
+        float offsetY = 50;
+        if (worldController.scoreVirtual < worldController.score) {
+            long shakeAlpha = System.currentTimeMillis() % 360;
+            float shakeDistance = 1.5f;
+            offsetX += MathUtils.sinDeg(shakeAlpha * 2.2f) * shakeDistance;
+            offsetY += MathUtils.sinDeg(shakeAlpha * 2.9f) * shakeDistance;
+        }
         batch.draw(Assets.instance.goldCoinAssets.goldCoin,
                 x,
                 y,
-                50,
-                50,
+                offsetX,
+                offsetY,
                 100,
                 100,
                 0.35f,
@@ -67,7 +76,7 @@ public class WorldRenderer implements Disposable {
         );
         Assets.instance.assetFonts.defaultBig.draw(
                 batch,
-                String.valueOf(worldController.score),
+                String.valueOf((int) worldController.scoreVirtual),
                 x + 75,
                 y + 37
         );
