@@ -18,4 +18,6 @@
         name="gdx.reflect.include"
         value="com.badlogic.gdx.utils"
     />
+
+    <inherits name="com.badlogic.gdx.physics.box2d.box2d-gwt"/>
 </module>
