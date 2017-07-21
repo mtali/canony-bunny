@@ -48,6 +48,9 @@ public class WorldController extends InputAdapter implements Disposable {
     private BunnyHead bunnyHead;
     private boolean goalReached;
 
+    // Accelerometer
+    private boolean accelerometerAvailable;
+
 
     public WorldController(DirectedGame game) {
         this.game = game;
@@ -86,6 +89,7 @@ public class WorldController extends InputAdapter implements Disposable {
     }
 
     private void init() {
+        accelerometerAvailable = Gdx.input.isPeripheralAvailable(Input.Peripheral.Accelerometer);
         cameraHelper = new CameraHelper();
         lives = Constants.LIVES_START;
         livesVisual = lives;
@@ -262,8 +266,21 @@ public class WorldController extends InputAdapter implements Disposable {
             } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 bunnyHead.velocity.x = bunnyHead.terminalVelocity.x;
             } else {
-                if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
-                    bunnyHead.velocity.x = bunnyHead.terminalVelocity.x;
+                if (accelerometerAvailable){
+                    // normalize accelerometer values from [-10,10] to [-1,1]
+                    // which translate to rotation [-90,90] degrees
+                    float amount = Gdx.input.getAccelerometerY() / 10.0f;
+                    amount *= 90.0f;
+                    // is angle of rotation inside dead zone?
+                    if (Math.abs(amount) < Constants.ACCEL_ANGLE_DEAD_ZONE) {
+                        amount = 0;
+                    } else {
+                        // use the defined angle of rotation insead of full 90degrees for max velocity
+                        amount /= Constants.ACCEL_MAX_ANGLE_MOVEMENT;
+                    }
+                    level.bunnyHead.velocity.x = level.bunnyHead.terminalVelocity.x * amount;
+                } else if (Gdx.app.getType() != Application.ApplicationType.Desktop){
+                    level.bunnyHead.velocity.x = level.bunnyHead.terminalVelocity.x;
                 }
             }
 

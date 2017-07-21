@@ -69,6 +69,8 @@ public class Constants {
     public static final int CARROTS_SPAWN_MAX = 100;
     public static final float CARROTS_SPAWN_RADIUS = 3.5f;
     public static final float TIME_DELAY_GAME_FINISHED = 6;
+    public static final float ACCEL_ANGLE_DEAD_ZONE = 5.0f;
+    public static final float ACCEL_MAX_ANGLE_MOVEMENT = 20.0f;
     // Camera constants
     static final float MAX_ZOOM_IN = 0.25f;
     static final float MAX_ZOOM_OUT = 10f;
