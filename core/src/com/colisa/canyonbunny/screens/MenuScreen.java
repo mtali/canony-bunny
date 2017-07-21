@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.colisa.canyonbunny.game.Assets;
 import com.colisa.canyonbunny.screens.transitions.ScreenTransition;
 import com.colisa.canyonbunny.screens.transitions.ScreenTransitionFade;
+import com.colisa.canyonbunny.util.AudioManager;
 import com.colisa.canyonbunny.util.CharacterSkin;
 import com.colisa.canyonbunny.util.Constants;
 import com.colisa.canyonbunny.util.GamePreferences;
@@ -389,12 +390,14 @@ public class MenuScreen extends AbstractGameScreen {
     private void onSaveClicked() {
         saveSettings();
         onCancelClicked();
+        AudioManager.instance.onSettingsUpdated();
     }
 
     private void onCancelClicked() {
         buttonMenuPlay.setVisible(true);
         buttonMenuOptions.setVisible(true);
         winOptions.setVisible(false);
+        AudioManager.instance.onSettingsUpdated();
     }
 
 }

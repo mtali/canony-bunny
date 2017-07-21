@@ -15,6 +15,7 @@ import com.colisa.canyonbunny.screens.DirectedGame;
 import com.colisa.canyonbunny.screens.MenuScreen;
 import com.colisa.canyonbunny.screens.transitions.ScreenTransition;
 import com.colisa.canyonbunny.screens.transitions.ScreenTransitionSlide;
+import com.colisa.canyonbunny.util.AudioManager;
 import com.colisa.canyonbunny.util.CameraHelper;
 import com.colisa.canyonbunny.util.Constants;
 import com.colisa.canyonbunny.util.Enums;
@@ -74,6 +75,7 @@ public class WorldController extends InputAdapter {
         cameraHelper.update(deltaTime);
 
         if (!isGameOver() && isPlayerInWater()) {
+            AudioManager.instance.play(Assets.instance.assetSounds.liveLost);
             lives--;
             if (isGameOver())
                 timeLeftGameOver = Constants.TIME_DELAY_GAME_OVER;
@@ -171,6 +173,7 @@ public class WorldController extends InputAdapter {
 
     private void onCollisionBunnyWithFeather(Feather feather) {
         feather.collected = true;
+        AudioManager.instance.play(Assets.instance.assetSounds.pickupFeather);
         score += feather.getScore();
         bunnyHead.setFeatherPowerUp(true);
         Gdx.app.log(TAG, "Feather collected");
@@ -178,6 +181,7 @@ public class WorldController extends InputAdapter {
 
     private void onCollisionBunnyWithGoldIcon(GoldIcon goldIcon) {
         goldIcon.collected = true;
+        AudioManager.instance.play(Assets.instance.assetSounds.pickupCoin);
         score += goldIcon.getScore();
         Gdx.app.log(TAG, "Gold coin collected");
     }

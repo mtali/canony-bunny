@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.colisa.canyonbunny.game.Assets;
+import com.colisa.canyonbunny.util.AudioManager;
 import com.colisa.canyonbunny.util.CharacterSkin;
 import com.colisa.canyonbunny.util.Constants;
 import com.colisa.canyonbunny.util.Enums.JUMP_STATE;
@@ -19,9 +21,8 @@ public class BunnyHead extends AbstractGameObject {
     public float timeJumping;
     public boolean hasFeatherPowerUp;
     public float timeLeftFeatherPowerUp;
-    private TextureRegion region;
-
     public ParticleEffect dustParticle = new ParticleEffect();
+    private TextureRegion region;
 
     public BunnyHead() {
         init();
@@ -55,6 +56,7 @@ public class BunnyHead extends AbstractGameObject {
         switch (jumpState) {
             case GROUNDED:
                 if (jumpKeyPressed) {
+                    AudioManager.instance.play(Assets.instance.assetSounds.jump);
                     timeJumping = 0;
                     jumpState = JUMP_STATE.JUMP_RISING;
                 }
@@ -66,6 +68,7 @@ public class BunnyHead extends AbstractGameObject {
             case FALLING:
             case JUMP_FALLING:
                 if (jumpKeyPressed && hasFeatherPowerUp) {
+                    AudioManager.instance.play(Assets.instance.assetSounds.jumpWithFeather, 1, MathUtils.random(1.0f, 1.1f));
                     timeJumping = Constants.JUMP_TIME_OFFSET_FLYING;
                     jumpState = JUMP_STATE.JUMP_RISING;
                 }

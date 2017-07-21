@@ -51,14 +51,21 @@ public class Constants {
     public static final String SKIN_LIBGDX_UI = "images-user/uiskin.json";
     // Game preferences file
     public static final String PREFERENCES = "canyonbunny.prefs";
+    // Camera Helper
+    public static final float FOLLOW_SPEED = 4.0f;
+    // Rocks
+    public static final float FLOAT_CIRCLE_TIME = 2.0F;
+    public static final float FLOAT_AMPLITUDE = 0.25f;
+    // Sounds
+    public static final String JUMP = "sounds/jump.wav";
+    public static final String JUMP_WITH_FEATHER = "sounds/jump_with_feather.wav";
+    public static final String PICKUP_COIN = "sounds/pickup_coin.wav";
+    public static final String PICKUP_FEATHER = "sounds/pickup_feather.wav";
+    public static final String LIVE_LOST = "sounds/live_lost.wav";
+    // Music
+    public static final String MUSIC_O1 = "music/keith303_-_brand_new_highscore.mp3";
     // Camera constants
     static final float MAX_ZOOM_IN = 0.25f;
     static final float MAX_ZOOM_OUT = 10f;
 
-    // Camera Helper
-    public static final float FOLLOW_SPEED = 4.0f;
-
-    // Rocks
-    public static final float FLOAT_CIRCLE_TIME = 2.0F;
-    public static final float FLOAT_AMPLITUDE = 0.25f;
 }
