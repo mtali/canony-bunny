@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.colisa.canyonbunny.screens.transitions.ScreenTransition;
 
 public abstract class DirectedGame implements ApplicationListener {
-
+    private static final String TAG = DirectedGame.class.getName();
     private boolean init;
     private AbstractGameScreen currentScreen;
     private AbstractGameScreen nextScreen;
