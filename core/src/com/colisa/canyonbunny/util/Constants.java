@@ -22,6 +22,8 @@ public class Constants {
     public static final String MOUNTAIN_LEFT = "mountain_left";
     public static final String MOUNTAIN_RIGHT = "mountain_right";
     public static final String WATER_OVERLAY = "water_overlay";
+    public static final String CARROT = "carrot";
+    public static final String GOAL = "goal";
 
     public static final String LEVEL_1 = "levels/level-01.png";
     public static final float TIME_DELAY_GAME_OVER = 3;
@@ -64,6 +66,9 @@ public class Constants {
     public static final String LIVE_LOST = "sounds/live_lost.wav";
     // Music
     public static final String MUSIC_O1 = "music/keith303_-_brand_new_highscore.mp3";
+    public static final int CARROTS_SPAWN_MAX = 100;
+    public static final float CARROTS_SPAWN_RADIUS = 3.5f;
+    public static final float TIME_DELAY_GAME_FINISHED = 6;
     // Camera constants
     static final float MAX_ZOOM_IN = 0.25f;
     static final float MAX_ZOOM_OUT = 10f;

@@ -28,9 +28,6 @@ public class GameScreen extends AbstractGameScreen {
             worldController.update(deltaTime);
         }
         worldRenderer.render();
-        if (worldController.isGameOver() && worldController.timeLeftGameOver < 0){
-            worldController.backToMenu();
-        }
     }
 
     @Override
@@ -56,6 +53,7 @@ public class GameScreen extends AbstractGameScreen {
     @Override
     public void hide() {
         worldRenderer.dispose();
+        worldController.dispose();
         Gdx.input.setCatchBackKey(false);
         Gdx.app.debug(TAG, "hide() called. Calling world render dispose & Setting paused FALSE");
     }

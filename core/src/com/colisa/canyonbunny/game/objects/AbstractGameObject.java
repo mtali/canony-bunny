@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 
 @SuppressWarnings("WeakerAccess")
 public abstract class AbstractGameObject {
@@ -13,6 +14,7 @@ public abstract class AbstractGameObject {
     public Vector2 origin;
     public Vector2 scale;
     public float rotation;
+    public Body body;
 
     /**
      * Objects current speed in m/s.
@@ -87,13 +89,19 @@ public abstract class AbstractGameObject {
     }
 
     public void update(float deltaTime) {
-        // Update body X and Y velocity
-        updateMotionX(deltaTime);
-        updateMotionY(deltaTime);
+        if (body == null){
+            // Update body X and Y velocity
+            updateMotionX(deltaTime);
+            updateMotionY(deltaTime);
 
-        // Move object to new position
-        position.x += velocity.x * deltaTime;
-        position.y += velocity.y * deltaTime;
+            // Move object to new position
+            position.x += velocity.x * deltaTime;
+            position.y += velocity.y * deltaTime;
+        } else {
+            position.set(body.getPosition());
+            rotation = body.getAngle() * MathUtils.radiansToDegrees;
+        }
+
     }
 
     public abstract void render(SpriteBatch batch);

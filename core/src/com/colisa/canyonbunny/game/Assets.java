@@ -131,6 +131,8 @@ public class Assets implements Disposable, AssetErrorListener {
         public final AtlasRegion mountainLeft;
         public final AtlasRegion mountainRight;
         public final AtlasRegion waterOverlay;
+        public final AtlasRegion carrot;
+        public final AtlasRegion goal;
 
         public AssetLevelDecoration(TextureAtlas atlas) {
             cloud1 = atlas.findRegion(Constants.CLOUDS_1);
@@ -139,6 +141,8 @@ public class Assets implements Disposable, AssetErrorListener {
             mountainLeft = atlas.findRegion(Constants.MOUNTAIN_LEFT);
             mountainRight = atlas.findRegion(Constants.MOUNTAIN_RIGHT);
             waterOverlay = atlas.findRegion(Constants.WATER_OVERLAY);
+            carrot = atlas.findRegion(Constants.CARROT);
+            goal = atlas.findRegion(Constants.GOAL);
         }
     }
 
