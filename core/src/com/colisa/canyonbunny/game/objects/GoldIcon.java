@@ -3,6 +3,7 @@ package com.colisa.canyonbunny.game.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.colisa.canyonbunny.game.Assets;
 
 public class GoldIcon extends AbstractGameObject {
@@ -15,6 +16,8 @@ public class GoldIcon extends AbstractGameObject {
     }
 
     private void init(){
+        setAnimation(Assets.instance.goldCoinAssets.animGoldIcon);
+        stateTime = MathUtils.random(0.0f, 1.0f);
         dimension.set(0.5f, 0.5f);
         regionGoldIcon = Assets.instance.goldCoinAssets.goldCoin;
         bounds.set(0, 0, dimension.x, dimension.y);
@@ -26,7 +29,7 @@ public class GoldIcon extends AbstractGameObject {
     public void render(SpriteBatch batch) {
         if (collected) return;
         TextureRegion region = null;
-        region = regionGoldIcon;
+        region = (TextureRegion) animation.getKeyFrame(stateTime);
         batch.draw(
                 region.getTexture(),
                 position.x,

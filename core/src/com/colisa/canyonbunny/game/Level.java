@@ -153,6 +153,9 @@ public class Level {
         for (Carrot carrot : carrots) {
             carrot.update(deltaTime);
         }
+
+        for (GoldIcon goldIcon : goldIcons)
+            goldIcon.update(deltaTime);
         clouds.update(deltaTime);
     }
 

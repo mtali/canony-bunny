@@ -1,6 +1,7 @@
 package com.colisa.canyonbunny.game.objects;
 
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -16,29 +17,13 @@ public abstract class AbstractGameObject {
     public float rotation;
     public Body body;
 
-    /**
-     * Objects current speed in m/s.
-     **/
+    public Animation animation;
+    public float stateTime;
+
     public Vector2 velocity;
-
-    /**
-     * Objects positive and negative maximum velocity.
-     **/
     public Vector2 terminalVelocity;
-
-    /**
-     * Opposing force, slow down the object until its velocity equals zero
-     **/
     public Vector2 friction;
-
-    /**
-     * Objects constant acceleration in m/s2.
-     **/
     public Vector2 acceleration;
-
-    /**
-     * Object bounding box describe physical body for collision detection
-     **/
     public Rectangle bounds;
 
 
@@ -89,6 +74,7 @@ public abstract class AbstractGameObject {
     }
 
     public void update(float deltaTime) {
+        stateTime += deltaTime;
         if (body == null){
             // Update body X and Y velocity
             updateMotionX(deltaTime);
@@ -102,6 +88,11 @@ public abstract class AbstractGameObject {
             rotation = body.getAngle() * MathUtils.radiansToDegrees;
         }
 
+    }
+
+    public void setAnimation(Animation animation) {
+        this.animation = animation;
+        stateTime = 0;
     }
 
     public abstract void render(SpriteBatch batch);

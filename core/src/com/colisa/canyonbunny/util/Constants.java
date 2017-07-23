@@ -74,5 +74,8 @@ public class Constants {
     // Camera constants
     static final float MAX_ZOOM_IN = 0.25f;
     static final float MAX_ZOOM_OUT = 10f;
-
+    // Animations
+    public static final String COIN_ANIMATION = "anim_gold_coin";
+    public static final String ANIMATION_BUNNY_NORMAL = "anim_bunny_normal";
+    public static final String ANIMATION_BUNNY_COPTER = "anim_bunny_copter";
 }
