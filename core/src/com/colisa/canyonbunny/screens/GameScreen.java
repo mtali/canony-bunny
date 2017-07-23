@@ -38,7 +38,6 @@ public class GameScreen extends AbstractGameScreen {
     @Override
     public void resize(int width, int height) {
         worldRenderer.resize(width, height);
-        Gdx.app.debug(TAG, "resize() called. Calling world render resize");
     }
 
     @Override
@@ -47,7 +46,6 @@ public class GameScreen extends AbstractGameScreen {
         worldController = new WorldController(game);
         worldRenderer = new WorldRenderer(worldController);
         Gdx.input.setCatchBackKey(true);
-        Gdx.app.debug(TAG, "show() called. Initializing world - controller and render");
     }
 
     @Override
@@ -55,13 +53,11 @@ public class GameScreen extends AbstractGameScreen {
         worldRenderer.dispose();
         worldController.dispose();
         Gdx.input.setCatchBackKey(false);
-        Gdx.app.debug(TAG, "hide() called. Calling world render dispose & Setting paused FALSE");
     }
 
     @Override
     public void pause() {
         paused = true;
-        Gdx.app.debug(TAG, "pause() called. Setting paused TRUE");
     }
 
 
@@ -69,6 +65,5 @@ public class GameScreen extends AbstractGameScreen {
     public void resume() {
         super.resume();
         paused = false;
-        Gdx.app.debug(TAG, "resume() called. Setting paused FALSE");
     }
 }

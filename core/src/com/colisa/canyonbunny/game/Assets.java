@@ -57,7 +57,7 @@ public class Assets implements Disposable, AssetErrorListener {
         // start loading assets and wait until finished
         assetManager.finishLoading();
 
-        Gdx.app.debug(TAG, "Assets loaded:- " + assetManager.hashCode());
+        Gdx.app.debug(TAG, "Assets loaded");
 
         // Caching the textures
         TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
@@ -87,9 +87,9 @@ public class Assets implements Disposable, AssetErrorListener {
 
     @Override
     public void dispose() {
+        Gdx.app.debug(TAG, "Disposing all game assets");
         assetFonts.dispose();
         assetManager.dispose();
-        Gdx.app.debug(TAG, "Disposing all game assets");
     }
 
     public class AssetBunny {

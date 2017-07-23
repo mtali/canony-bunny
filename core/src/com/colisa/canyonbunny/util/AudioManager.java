@@ -46,7 +46,6 @@ public class AudioManager {
     }
 
     public void onSettingsUpdated() {
-        Gdx.app.debug(TAG, "setting updated called");
         if (playingMusic == null) return;
         playingMusic.setVolume(GamePreferences.instance.volumeMusic);
         if (GamePreferences.instance.music) {

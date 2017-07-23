@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.colisa.canyonbunny.game.Assets;
 import com.colisa.canyonbunny.screens.transitions.ScreenTransition;
 
 public abstract class DirectedGame implements ApplicationListener {
@@ -119,6 +120,7 @@ public abstract class DirectedGame implements ApplicationListener {
             batch.dispose();
             init = false;
         }
+        Assets.instance.dispose();
     }
 
 }

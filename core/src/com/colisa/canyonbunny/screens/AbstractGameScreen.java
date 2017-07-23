@@ -22,13 +22,13 @@ public abstract class AbstractGameScreen implements Screen {
     public abstract void pause();
 
     public void resume(){
+        Gdx.app.debug(TAG, "calling resume(). Initializing assets");
         Assets.instance.init(new AssetManager());
-        Gdx.app.debug(TAG, "resume called. Initializing assets");
     }
 
     public void dispose(){
+        Gdx.app.debug(TAG, "calling assets dispose from screen" + this.getClass());
         Assets.instance.dispose();
-        Gdx.app.debug(TAG, "dispose() called; Disposing assets");
     }
 
     public abstract InputProcessor getInputProcessor();

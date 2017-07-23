@@ -103,7 +103,6 @@ public class WorldController extends InputAdapter implements Disposable {
         if (isGameOver() || goalReached) {
             timeLeftGameOver -= deltaTime;
             if (timeLeftGameOver < 0) {
-                Gdx.app.debug(TAG, "Goal reached");
                 backToMenu();
             }
         } else {
@@ -173,7 +172,6 @@ public class WorldController extends InputAdapter implements Disposable {
 
         if (keycode == Input.Keys.R) {
             init();
-            Gdx.app.debug(TAG, "Game world resettled");
         } else if (keycode == Input.Keys.ENTER) {
             cameraHelper.setTarget(cameraHelper.hasTarget() ? null : level.bunnyHead);
             Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
@@ -224,14 +222,12 @@ public class WorldController extends InputAdapter implements Disposable {
         AudioManager.instance.play(Assets.instance.assetSounds.pickupFeather);
         score += feather.getScore();
         bunnyHead.setFeatherPowerUp(true);
-        Gdx.app.log(TAG, "Feather collected");
     }
 
     private void onCollisionBunnyWithGoldIcon(GoldIcon goldIcon) {
         goldIcon.collected = true;
         AudioManager.instance.play(Assets.instance.assetSounds.pickupCoin);
         score += goldIcon.getScore();
-        Gdx.app.log(TAG, "Gold coin collected");
     }
 
     private void onCollisionBunnyWithRock(Rock rock) {
@@ -303,7 +299,6 @@ public class WorldController extends InputAdapter implements Disposable {
     public void backToMenu() {
         ScreenTransition transition = ScreenTransitionSlide.init(0.75f, ScreenTransitionSlide.DOWN, false, Interpolation.bounceOut);
         game.setScreen(new MenuScreen(game), transition);
-        Gdx.app.debug(TAG, "switched back to menu screen.");
     }
 
     private void spawnCarrots(Vector2 pos, int numCarrots, float radius) {
