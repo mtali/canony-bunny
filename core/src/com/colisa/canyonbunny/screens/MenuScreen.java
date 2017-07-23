@@ -6,8 +6,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -29,6 +32,17 @@ import com.colisa.canyonbunny.util.AudioManager;
 import com.colisa.canyonbunny.util.CharacterSkin;
 import com.colisa.canyonbunny.util.Constants;
 import com.colisa.canyonbunny.util.GamePreferences;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.scaleTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.touchable;
 
 public class MenuScreen extends AbstractGameScreen {
     private static final String TAG = MenuScreen.class.getName();
@@ -154,11 +168,29 @@ public class MenuScreen extends AbstractGameScreen {
         // + coins
         imageCoins = new Image(skinCanyonBunny, "coins");
         layer.addActor(imageCoins);
-        imageCoins.setPosition(135, 80);
+        imageCoins.setOrigin(imageCoins.getWidth() / 2, imageCoins.getHeight() / 2);
+        imageCoins.addAction(sequence(
+                moveTo(135, -20),
+                scaleTo(0, 0),
+                fadeOut(0),
+                delay(2.5f),
+                parallel(moveBy(0, 100, 0.5f, Interpolation.swingOut)),
+                scaleTo(1, 1, 0.25f, Interpolation.linear),
+                alpha(1.0f, 0.7f, Interpolation.linear)
+
+        ));
+        //imageCoins.setPosition(135, 80);
         // +bunny
         imageBunny = new Image(skinCanyonBunny, "bunny");
         layer.addActor(imageBunny);
-        imageBunny.setPosition(355, 40);
+        imageBunny.addAction(sequence(
+                moveTo(655, 510),
+                delay(4.0f),
+                moveBy(-70, -100, 0.5f, Interpolation.fade),
+                moveBy(-100, -50, 0.5f, Interpolation.fade),
+                moveBy(-150, -300, 1.0f, Interpolation.elasticIn)
+        ));
+        //imageBunny.setPosition(355, 40);
         return layer;
     }
 
@@ -211,9 +243,8 @@ public class MenuScreen extends AbstractGameScreen {
 
     private void onOptionsClicked() {
         loadSettings();
-        buttonMenuPlay.setVisible(false);
-        buttonMenuOptions.setVisible(false);
-        winOptions.setVisible(true);
+        showMenuButtons(false);
+        showOptionsWindow(true, true);
     }
 
     private Table buildOptionsWindowAudioLayer() {
@@ -345,7 +376,7 @@ public class MenuScreen extends AbstractGameScreen {
         // Make options window slight transparent
         winOptions.setColor(1, 1, 1, 0.8f);
         // Hide options windows bu default
-        winOptions.setVisible(false);
+        showOptionsWindow(false, false);
         if (debugEnabled) winOptions.debug();
 
         // Let table recalculate widget sizes and position
@@ -394,10 +425,49 @@ public class MenuScreen extends AbstractGameScreen {
     }
 
     private void onCancelClicked() {
-        buttonMenuPlay.setVisible(true);
-        buttonMenuOptions.setVisible(true);
-        winOptions.setVisible(false);
+        showMenuButtons(true);
+        showOptionsWindow(false, true);
         AudioManager.instance.onSettingsUpdated();
+    }
+
+    private void showMenuButtons(boolean visible) {
+        float moveDuration = 1.0f;
+        Interpolation moveEasing = Interpolation.swing;
+        float delayOptionsButton = 0.25f;
+
+        float moveX = 300 * (visible ? -1 : 1);
+        float moveY = 0;
+        final Touchable touchEnabled = (visible ? Touchable.enabled : Touchable.disabled);
+        buttonMenuPlay.addAction(
+                moveBy(moveX, moveY, moveDuration, moveEasing)
+        );
+
+        buttonMenuOptions.addAction(sequence(
+                delay(delayOptionsButton),
+                moveBy(moveX, moveY, moveDuration, moveEasing)
+        ));
+
+        SequenceAction seq = new SequenceAction();
+        seq.addAction(delay(delayOptionsButton + moveDuration));
+        seq.addAction(run(new Runnable() {
+            @Override
+            public void run() {
+                buttonMenuPlay.setTouchable(touchEnabled);
+                buttonMenuOptions.setTouchable(touchEnabled);
+            }
+        }));
+
+        stage.addAction(seq);
+    }
+
+    private void showOptionsWindow(boolean visible, boolean animated) {
+        float alphaTo = visible ? 0.8f : 0.0f;
+        float duration = animated ? 1.0f : 0.0f;
+        Touchable touchEnabled = visible ? Touchable.enabled : Touchable.disabled;
+        winOptions.addAction(sequence(
+                touchable(touchEnabled),
+                alpha(alphaTo, duration)
+        ));
     }
 
 }
