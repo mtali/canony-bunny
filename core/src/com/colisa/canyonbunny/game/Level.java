@@ -73,7 +73,7 @@ public class Level {
                     }
                 } else if (BLOCK_TYPE.PLAYER_SPAWN_POINT.sameColor(currentPixel)) {
                     obj = new BunnyHead();
-                    offsetHeight = 0f;
+                    offsetHeight = -1.0f;
                     obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
                     bunnyHead = (BunnyHead) obj;
                 } else if (BLOCK_TYPE.ITEM_FEATHER.sameColor(currentPixel)) {
